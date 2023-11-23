@@ -49,10 +49,29 @@ resource "azurerm_subnet" "subnet003" {
   }
 }
 
-# This subnet will be empty, so any resources can be deployed to it.
+# This subnet has delegation enabled for Microsoft.Web/serverFarms.
 resource "azurerm_subnet" "subnet004" {
   name                 = "Subnet-004"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet1.name
   address_prefixes     = ["10.1.4.0/24"]
+
+  delegation {
+    name = "delegation"
+
+    service_delegation {
+      name = "Microsoft.Web/serverFarms"
+      actions = [
+        "Microsoft.Network/virtualNetworks/subnets/action",
+      ]
+    }
+  }
+}
+
+# This subnet will be empty, so any resources can be deployed to it.
+resource "azurerm_subnet" "subnet005" {
+  name                 = "Subnet-005"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.vnet1.name
+  address_prefixes     = ["10.1.5.0/24"]
 }

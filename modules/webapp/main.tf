@@ -22,8 +22,7 @@ resource "azurerm_linux_web_app" "main" {
   }
 
   app_settings = {
-    DOCKER_ENABLE_CI           = true
-    DOCKER_REGISTRY_SERVER_URL = "https://index.docker.io"
-    WEBSITES_PORT              = "80"
+    DOCKER_ENABLE_CI = true
+    WEBSITES_PORT    = "80"
   }
 }
