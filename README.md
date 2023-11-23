@@ -20,7 +20,7 @@ The following subnets will be created within the VNET:
 | Subnet005 | Yes | - | - |
 
 
-The results are interesting.
+The results are interesting when looking at `Subnet003`.
 
 When integrating services to subnets, we get different outputs:
 
