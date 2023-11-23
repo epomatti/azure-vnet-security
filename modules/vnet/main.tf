@@ -28,7 +28,7 @@ resource "azurerm_subnet" "subnet002" {
   service_endpoints = ["Microsoft.Storage"]
 }
 
-# This subnet has delegation enabled, but for different service.
+# This subnet has delegation enabled for SQL Managed Instance.
 resource "azurerm_subnet" "subnet003" {
   name                 = "Subnet-003"
   resource_group_name  = var.resource_group_name
@@ -39,10 +39,11 @@ resource "azurerm_subnet" "subnet003" {
     name = "delegation"
 
     service_delegation {
-      name = "Microsoft.ContainerInstance/containerGroups"
+      name = "Microsoft.Sql/managedInstances"
       actions = [
         "Microsoft.Network/virtualNetworks/subnets/join/action",
-        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"
+        "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action",
+        "Microsoft.Network/virtualNetworks/subnets/unprepareNetworkPolicies/action"
       ]
     }
   }
