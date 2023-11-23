@@ -1,6 +1,6 @@
 # Azure VNET Delegation
 
-This exercise servers to demonstrate deployability of resources depending on subnet delegation.
+This exercise will demonstrate deployability of resources based on subnet status.
 
 Create the base resources:
 
