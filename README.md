@@ -11,12 +11,6 @@ terraform apply -auto-approve
 
 The following subnets will be created within the VNET:
 
-- Subnet 1 - VM deployed
-- Subnet 2 - Empty with with Service Endpoint: `Microsoft.Storage`
-- Subnet 3 - Empty with `Microsoft.Sql/managedInstances` subnet delegation
-- Subnet 4 - Empty with `Microsoft.Web/serverFarms` subnet delegation
-- Subnet 5 - Empty
-
 | Subnet | Is empty? | Service Endpoint | Subnet Delegation |
 |-|-|-|-|
 | Subnet001 | No  | - | - |
