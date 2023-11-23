@@ -1,4 +1,4 @@
-# Azure VNET Delegation
+# Azure VNET Subnet Delegation
 
 This exercise will demonstrate deployability of resources based on subnet status.
 
