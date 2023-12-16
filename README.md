@@ -1,4 +1,4 @@
-# Azure VNET Subnet Delegation
+# Azure VNET Security
 
 This exercise will demonstrate deployability of resources based on subnet status.
 
@@ -8,6 +8,16 @@ Create the base resources:
 terraform init
 terraform apply -auto-approve
 ```
+
+## Network Monitor
+
+To enabled advanced monitoring capabilities, such as the [Connection Monitor][2], use the [Network Watcher Agent][1].
+
+This project already installs the agent by default.
+
+You can enable the Connection Monitor from the Azure Monitor Insights section for the Network blade.
+
+## Azure VNET Subnet Delegation
 
 The following subnets will be created within the VNET:
 
@@ -46,3 +56,7 @@ Destroy the resources after using it:
 ```sh
 terraform destroy -auto-approve
 ```
+
+
+[1]: https://learn.microsoft.com/en-us/azure/virtual-machines/extensions/network-watcher-linux
+[2]: https://learn.microsoft.com/en-us/azure/network-watcher/connection-monitor-overview
