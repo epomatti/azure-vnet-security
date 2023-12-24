@@ -1,5 +1,4 @@
 ### Virtual Network ###
-
 resource "azurerm_virtual_network" "vnet1" {
   name                = "VNET1"
   address_space       = ["10.1.0.0/16"]
@@ -9,7 +8,6 @@ resource "azurerm_virtual_network" "vnet1" {
 
 
 ### Subnets ###
-
 # This subnet will contain a VM.
 resource "azurerm_subnet" "subnet001" {
   name                 = "Subnet-001"
@@ -74,4 +72,23 @@ resource "azurerm_subnet" "subnet005" {
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet1.name
   address_prefixes     = ["10.1.5.0/24"]
+}
+
+### Flow Logs ###
+resource "azurerm_subnet" "subnet_nsg_flowlogs" {
+  name                 = "Subnet-NSGFlowlogs"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.vnet1.name
+  address_prefixes     = ["10.1.99.0/24"]
+}
+
+resource "azurerm_network_security_group" "default" {
+  name                = "nsg-flowlogs"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_subnet_network_security_group_association" "default" {
+  subnet_id                 = azurerm_subnet.subnet_nsg_flowlogs.id
+  network_security_group_id = azurerm_network_security_group.default.id
 }
