@@ -47,6 +47,24 @@ Requirements for SQL Managed Instance:
 
 <img src=".assets/sqlmanagedinstance.png" />
 
+## Application Security Group (ASG)
+
+> All network interfaces assigned to an application security group have to exist in the same virtual network that the first network interface assigned to the application security group is in. For example, if the first network interface assigned to an application security group named _AsgWeb_ is in the virtual network named _VNet1_, then all subsequent network interfaces assigned to _ASGWeb_ must exist in _VNet1_. You can't add network interfaces from different virtual networks to the same application security group.
+
+Here're some commands to test [ASGs][3].
+
+Although not mentioned explicitly, you cannot use an ASG created in a different region.
+
+```sh
+# Creating in different regions to test compatibility
+
+# You can add this one
+az network asg create -g rg-test001 -n asg-test001-eastus2 -l eastus2
+
+# You CANNOT add this one as it is from a different region
+az network asg create -g rg-test001 -n asg-test001-brazilsouth -l brazilsouth
+```
+
 ---
 
 ### Clean up the resources
@@ -60,3 +78,4 @@ terraform destroy -auto-approve
 
 [1]: https://learn.microsoft.com/en-us/azure/virtual-machines/extensions/network-watcher-linux
 [2]: https://learn.microsoft.com/en-us/azure/network-watcher/connection-monitor-overview
+[3]: https://learn.microsoft.com/en-us/azure/virtual-network/application-security-groups
