@@ -119,7 +119,9 @@ Test the connection via private route to the storage:
 curl https://stnsgflowlogs1238casdf.blob.core.windows.net
 ```
 
+If you enable the ASG permission, it is possible to allow the communication.
 
+This demonstrates that the `Internet` tag is exclusively to public addresses and does affect virtual network connectivity.
 
 
 ---
