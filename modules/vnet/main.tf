@@ -74,6 +74,20 @@ resource "azurerm_subnet" "subnet005" {
   address_prefixes     = ["10.1.5.0/24"]
 }
 
+resource "azurerm_subnet" "virtual_machines" {
+  name                 = "virutal-machines"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.vnet1.name
+  address_prefixes     = ["10.1.200.0/24"]
+}
+
+resource "azurerm_subnet" "private_endpoints" {
+  name                 = "private-endpoints"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.vnet1.name
+  address_prefixes     = ["10.1.180.0/24"]
+}
+
 ### Flow Logs ###
 resource "azurerm_subnet" "subnet_nsg_flowlogs" {
   name                 = "Subnet-NSGFlowlogs"
@@ -91,4 +105,44 @@ resource "azurerm_network_security_group" "default" {
 resource "azurerm_subnet_network_security_group_association" "default" {
   subnet_id                 = azurerm_subnet.subnet_nsg_flowlogs.id
   network_security_group_id = azurerm_network_security_group.default.id
+}
+
+### Network Security Group - Virtual Machines
+resource "azurerm_network_security_group" "virtual_machines" {
+  name                = "nsg-virtual-machines"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_network_security_rule" "virtual_machines" {
+  name                        = "AllowInboundSSH"
+  priority                    = 500
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.virtual_machines.name
+}
+
+resource "azurerm_network_security_rule" "virtual_machines_deny_all_outbound" {
+  name                        = "DenyAllOutbound"
+  priority                    = 4096
+  direction                   = "Outbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.virtual_machines.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "virtual" {
+  subnet_id                 = azurerm_subnet.virtual_machines.id
+  network_security_group_id = azurerm_network_security_group.virtual_machines.id
 }

@@ -2,7 +2,36 @@
 
 This exercise will demonstrate deployability of resources based on subnet status.
 
+Create the variables file:
+
+```sh
+cp config/template.tfvars .auto.tfvars
+```
+
+Set your public IP address in the `allowed_source_address_prefixes` variable using CIDR notation:
+
+```sh
+# allowed_source_address_prefixes = ["1.2.3.4/32"]
+curl ifconfig.io/ip
+```
+
+Create the keys:
+
+```sh
+mkdir keys && ssh-keygen -f keys/temp_rsa
+```
+
+Check for updated agent versions:
+
+```sh
+# Identify latest version of Network Watcher extension for Linux.
+az vm extension image list --name 'NetworkWatcherAgentLinux' --publisher 'Microsoft.Azure.NetworkWatcher' --latest --location 'eastus2'
+```
+
 Create the base resources:
+
+> [!NOTE]
+> Request might fail if there is already a Network Watched created for the region. Adapt accordingly.
 
 ```sh
 terraform init
@@ -64,6 +93,12 @@ az network asg create -g rg-test001 -n asg-test001-eastus2 -l eastus2
 # You CANNOT add this one as it is from a different region
 az network asg create -g rg-test001 -n asg-test001-brazilsouth -l brazilsouth
 ```
+
+## Service Tags
+
+Testing the `Internet` service tag via NSG.
+
+
 
 ---
 
