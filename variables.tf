@@ -6,6 +6,10 @@ variable "allowed_source_address_prefixes" {
   type = list(string)
 }
 
+variable "nsg_virtual_machines_allow_outbound_tag" {
+  type = string
+}
+
 variable "location" {
   type    = string
   default = "eastus2"

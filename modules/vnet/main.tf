@@ -114,7 +114,7 @@ resource "azurerm_network_security_group" "virtual_machines" {
   resource_group_name = var.resource_group_name
 }
 
-resource "azurerm_network_security_rule" "virtual_machines" {
+resource "azurerm_network_security_rule" "virtual_machines_allow_inbound_ssh" {
   name                        = "AllowInboundSSH"
   priority                    = 500
   direction                   = "Inbound"
@@ -124,6 +124,20 @@ resource "azurerm_network_security_rule" "virtual_machines" {
   destination_port_range      = "22"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.virtual_machines.name
+}
+
+resource "azurerm_network_security_rule" "virtual_machines_allow_internet_outbound" {
+  name                        = "AllowInternetOutbound"
+  priority                    = 500
+  direction                   = "Outbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_ranges     = [80, 443]
+  source_address_prefix       = "*"
+  destination_address_prefix  = var.nsg_virtual_machines_allow_outbound_tag
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.virtual_machines.name
 }

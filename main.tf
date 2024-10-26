@@ -17,9 +17,10 @@ resource "azurerm_resource_group" "default" {
 }
 
 module "vnet" {
-  source              = "./modules/vnet"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  source                                  = "./modules/vnet"
+  resource_group_name                     = azurerm_resource_group.default.name
+  location                                = azurerm_resource_group.default.location
+  nsg_virtual_machines_allow_outbound_tag = var.nsg_virtual_machines_allow_outbound_tag
 }
 
 module "vm" {
@@ -42,9 +43,19 @@ module "webapp" {
 
 ### Flow Logs ###
 module "storage" {
-  source              = "./modules/storage"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  source                          = "./modules/storage"
+  resource_group_name             = azurerm_resource_group.default.name
+  location                        = azurerm_resource_group.default.location
+  allowed_source_address_prefixes = var.allowed_source_address_prefixes
+}
+
+module "private_link" {
+  source                      = "./modules/private-link"
+  resource_group_name         = azurerm_resource_group.default.name
+  location                    = azurerm_resource_group.default.location
+  private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
+  vnet_id                     = module.vnet.vnet_id
+  storage_account_id          = module.storage.storage_account_id
 }
 
 resource "azurerm_log_analytics_workspace" "default" {
