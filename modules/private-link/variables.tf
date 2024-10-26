@@ -17,3 +17,7 @@ variable "vnet_id" {
 variable "storage_account_id" {
   type = string
 }
+
+variable "storage_application_security_group_id" {
+  type = string
+}

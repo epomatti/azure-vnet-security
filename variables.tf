@@ -6,8 +6,16 @@ variable "allowed_source_address_prefixes" {
   type = list(string)
 }
 
-variable "nsg_virtual_machines_allow_outbound_tag" {
-  type = string
+variable "enable_vnet_nsg_rule_virtual_machine_internet_outbound" {
+  type = bool
+}
+
+variable "enable_vnet_nsg_rule_virtual_machine_virtual_network_outbound" {
+  type = bool
+}
+
+variable "enable_vnet_nsg_rule_virtual_machine_asg_outbound" {
+  type = bool
 }
 
 variable "location" {

@@ -17,10 +17,15 @@ resource "azurerm_resource_group" "default" {
 }
 
 module "vnet" {
-  source                                  = "./modules/vnet"
-  resource_group_name                     = azurerm_resource_group.default.name
-  location                                = azurerm_resource_group.default.location
-  nsg_virtual_machines_allow_outbound_tag = var.nsg_virtual_machines_allow_outbound_tag
+  source              = "./modules/vnet"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+
+  enable_vnet_nsg_rule_virtual_machine_internet_outbound        = var.enable_vnet_nsg_rule_virtual_machine_internet_outbound
+  enable_vnet_nsg_rule_virtual_machine_virtual_network_outbound = var.enable_vnet_nsg_rule_virtual_machine_virtual_network_outbound
+  enable_vnet_nsg_rule_virtual_machine_asg_outbound             = var.enable_vnet_nsg_rule_virtual_machine_asg_outbound
+
+  asg_storage_private_endpoints_ids = [module.asg.asg_storage_id]
 }
 
 module "vm" {
@@ -49,13 +54,20 @@ module "storage" {
   allowed_source_address_prefixes = var.allowed_source_address_prefixes
 }
 
+module "asg" {
+  source              = "./modules/asg"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+}
+
 module "private_link" {
-  source                      = "./modules/private-link"
-  resource_group_name         = azurerm_resource_group.default.name
-  location                    = azurerm_resource_group.default.location
-  private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
-  vnet_id                     = module.vnet.vnet_id
-  storage_account_id          = module.storage.storage_account_id
+  source                                = "./modules/private-link"
+  resource_group_name                   = azurerm_resource_group.default.name
+  location                              = azurerm_resource_group.default.location
+  private_endpoints_subnet_id           = module.vnet.private_endpoints_subnet_id
+  vnet_id                               = module.vnet.vnet_id
+  storage_account_id                    = module.storage.storage_account_id
+  storage_application_security_group_id = module.asg.asg_storage_id
 }
 
 resource "azurerm_log_analytics_workspace" "default" {

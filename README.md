@@ -96,7 +96,29 @@ az network asg create -g rg-test001 -n asg-test001-brazilsouth -l brazilsouth
 
 ## Service Tags
 
-Testing the `Internet` service tag via NSG.
+Verify the effectiveness of the `Internet` service tag via NSG.
+
+Confirm the network resolution route:
+
+```sh
+# Verify that the IP is private (10.*.*.*)
+dig stnsgflowlogs1238casdf.blob.core.windows.net
+```
+
+Confirm that normal internet route services are working:
+
+```sh
+# This should work
+curl https://www.google.com
+```
+
+Test the connection via private route to the storage:
+
+```sh
+# This should fail
+curl https://stnsgflowlogs1238casdf.blob.core.windows.net
+```
+
 
 
 

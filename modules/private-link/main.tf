@@ -32,3 +32,8 @@ resource "azurerm_private_endpoint" "blob" {
     subresource_names              = ["blob"]
   }
 }
+
+resource "azurerm_private_endpoint_application_security_group_association" "storage" {
+  private_endpoint_id           = azurerm_private_endpoint.blob.id
+  application_security_group_id = var.storage_application_security_group_id
+}

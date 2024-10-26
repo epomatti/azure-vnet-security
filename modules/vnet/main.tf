@@ -129,6 +129,7 @@ resource "azurerm_network_security_rule" "virtual_machines_allow_inbound_ssh" {
 }
 
 resource "azurerm_network_security_rule" "virtual_machines_allow_internet_outbound" {
+  count                       = var.enable_vnet_nsg_rule_virtual_machine_internet_outbound ? 1 : 0
   name                        = "AllowInternetOutbound"
   priority                    = 500
   direction                   = "Outbound"
@@ -137,9 +138,39 @@ resource "azurerm_network_security_rule" "virtual_machines_allow_internet_outbou
   source_port_range           = "*"
   destination_port_ranges     = [80, 443]
   source_address_prefix       = "*"
-  destination_address_prefix  = var.nsg_virtual_machines_allow_outbound_tag
+  destination_address_prefix  = "Internet"
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.virtual_machines.name
+}
+
+resource "azurerm_network_security_rule" "virtual_machines_allow_virtual_network_outbound" {
+  count                       = var.enable_vnet_nsg_rule_virtual_machine_virtual_network_outbound ? 1 : 0
+  name                        = "AllowVirtualNetworkOutbound"
+  priority                    = 510
+  direction                   = "Outbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_ranges     = [80, 443]
+  source_address_prefix       = "*"
+  destination_address_prefix  = "VirtualNetwork"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.virtual_machines.name
+}
+
+resource "azurerm_network_security_rule" "virtual_machines_allow_asg_outbound" {
+  count                                      = var.enable_vnet_nsg_rule_virtual_machine_asg_outbound ? 1 : 0
+  name                                       = "AllowASGkOutbound"
+  priority                                   = 520
+  direction                                  = "Outbound"
+  access                                     = "Allow"
+  protocol                                   = "*"
+  source_port_range                          = "*"
+  destination_port_ranges                    = [80, 443]
+  source_address_prefix                      = "*"
+  destination_application_security_group_ids = var.asg_storage_private_endpoints_ids
+  resource_group_name                        = var.resource_group_name
+  network_security_group_name                = azurerm_network_security_group.virtual_machines.name
 }
 
 resource "azurerm_network_security_rule" "virtual_machines_deny_all_outbound" {
