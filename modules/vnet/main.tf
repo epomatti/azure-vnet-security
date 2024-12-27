@@ -6,7 +6,6 @@ resource "azurerm_virtual_network" "vnet1" {
   resource_group_name = var.resource_group_name
 }
 
-
 ### Subnets ###
 # This subnet will contain a VM.
 resource "azurerm_subnet" "subnet001" {

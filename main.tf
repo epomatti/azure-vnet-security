@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "4.7.0"
+      version = "4.14.0"
     }
   }
 }
@@ -88,4 +88,11 @@ module "flowlog" {
   workspace_region          = azurerm_log_analytics_workspace.default.location
   workspace_id              = azurerm_log_analytics_workspace.default.workspace_id
   network_security_group_id = module.vnet.nsg_flowlogs_id
+}
+
+module "load_balancer" {
+  source              = "./modules/load-balancer"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  workload            = local.workload
 }

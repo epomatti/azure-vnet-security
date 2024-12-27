@@ -124,6 +124,16 @@ If you enable the ASG permission, it is possible to allow the communication.
 This demonstrates that the `Internet` tag is exclusively to public addresses and does affect virtual network connectivity.
 
 
+## Load Balancer
+
+> [!CAUTION]
+> Azure Load Balancer of `Basic` SKU is being discontinued. Use or migrate to `Standard`.
+
+> [!TIP]
+> With public IP `Standard`, public access needs to be allowed in the Network Security Group (NSG).
+
+
+
 ---
 
 ### Clean up the resources
