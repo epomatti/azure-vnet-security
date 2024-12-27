@@ -96,5 +96,6 @@ module "load_balancer" {
   location                   = azurerm_resource_group.default.location
   workload                   = local.workload
   vnet_id                    = module.vnet.vnet_id
+  vm001_nic_ipconfig_name    = module.vm.nic_ipconfig_name
   vm001_network_interface_id = module.vm.network_interface_id
 }

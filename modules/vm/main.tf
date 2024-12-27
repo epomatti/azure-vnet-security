@@ -1,3 +1,7 @@
+locals {
+  nic_ipconfig_name = "ipconfig1"
+}
+
 resource "azurerm_public_ip" "default" {
   name                = "pip-${var.workload}"
   resource_group_name = var.resource_group_name
@@ -5,14 +9,13 @@ resource "azurerm_public_ip" "default" {
   allocation_method   = "Static"
 }
 
-
 resource "azurerm_network_interface" "default" {
   name                = "nic-${var.workload}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
   ip_configuration {
-    name                          = "ipconfig1"
+    name                          = local.nic_ipconfig_name
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.default.id

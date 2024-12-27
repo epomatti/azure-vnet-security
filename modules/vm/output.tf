@@ -17,3 +17,7 @@ output "private_ip_address" {
 output "network_interface_id" {
   value = azurerm_network_interface.default.id
 }
+
+output "nic_ipconfig_name" {
+  value = local.nic_ipconfig_name
+}
