@@ -127,6 +127,23 @@ resource "azurerm_network_security_rule" "virtual_machines_allow_inbound_ssh" {
   network_security_group_name = azurerm_network_security_group.virtual_machines.name
 }
 
+# FIXME: Better confirm this rule to be sure
+# Allows HTTP 80 from Azure Load Balancer
+resource "azurerm_network_security_rule" "virtual_machines_allow_inbound_http" {
+  name      = "AllowInboundHTTP"
+  priority  = 510
+  direction = "Inbound"
+  access    = "Allow"
+  protocol  = "*"
+  # FIXME: Fix this
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.virtual_machines.name
+}
+
 resource "azurerm_network_security_rule" "virtual_machines_allow_internet_outbound" {
   count                       = var.enable_vnet_nsg_rule_virtual_machine_internet_outbound ? 1 : 0
   name                        = "AllowInternetOutbound"
