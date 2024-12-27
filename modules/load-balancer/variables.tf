@@ -9,3 +9,15 @@ variable "location" {
 variable "workload" {
   type = string
 }
+
+variable "vnet_id" {
+  type = string
+}
+
+# variable "vm001_private_ip_address" {
+#   type = string
+# }
+
+variable "vm001_network_interface_id" {
+  type = string
+}

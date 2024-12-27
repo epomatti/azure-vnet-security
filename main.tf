@@ -91,8 +91,10 @@ module "flowlog" {
 }
 
 module "load_balancer" {
-  source              = "./modules/load-balancer"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
-  workload            = local.workload
+  source                     = "./modules/load-balancer"
+  resource_group_name        = azurerm_resource_group.default.name
+  location                   = azurerm_resource_group.default.location
+  workload                   = local.workload
+  vnet_id                    = module.vnet.vnet_id
+  vm001_network_interface_id = module.vm.network_interface_id
 }

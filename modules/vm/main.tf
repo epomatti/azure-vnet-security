@@ -58,6 +58,10 @@ resource "azurerm_linux_virtual_machine" "default" {
     sku       = "server"
     version   = "latest"
   }
+
+  lifecycle {
+    ignore_changes = [custom_data]
+  }
 }
 
 resource "azurerm_virtual_machine_extension" "NetworkWatcherAgentLinux" {
