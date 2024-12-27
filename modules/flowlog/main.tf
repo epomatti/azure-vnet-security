@@ -9,10 +9,9 @@ resource "azurerm_network_watcher_flow_log" "default" {
   network_watcher_name = azurerm_network_watcher.default.name
   resource_group_name  = var.resource_group_name
   version              = 2
-
-  network_security_group_id = var.network_security_group_id
-  storage_account_id        = var.storage_account_id
-  enabled                   = true
+  target_resource_id   = var.network_security_group_id
+  storage_account_id   = var.storage_account_id
+  enabled              = true
 
   retention_policy {
     enabled = true
