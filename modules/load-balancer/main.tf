@@ -57,5 +57,6 @@ resource "azurerm_lb_rule" "vm001_nginx" {
   backend_port                   = 80
   frontend_ip_configuration_name = azurerm_lb.default.frontend_ip_configuration[0].name
   disable_outbound_snat          = true
+  probe_id                       = azurerm_lb_probe.vm001_nginx.id
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.vnet_pool.id]
 }

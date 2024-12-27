@@ -9,3 +9,7 @@ output "vm_ssh_connect_command" {
 output "storage_primary_blob_endpoint" {
   value = module.storage.storage_primary_blob_endpoint
 }
+
+output "load_balancer_public_ip_address" {
+  value = module.load_balancer.public_ip_address
+}
