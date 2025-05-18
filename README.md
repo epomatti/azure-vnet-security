@@ -18,7 +18,7 @@ curl ifconfig.io/ip
 Create the keys:
 
 ```sh
-mkdir keys && ssh-keygen -f keys/temp_rsa
+mkdir -p keys && ssh-keygen -f keys/temp_rsa
 ```
 
 Check for updated agent versions:
