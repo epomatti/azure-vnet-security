@@ -2,13 +2,19 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "4.14.0"
+      version = ">= 4.0.0"
     }
   }
 }
 
+resource "random_string" "affix" {
+  numeric     = true
+  length      = 3
+  min_numeric = 3
+}
+
 locals {
-  workload = "test001"
+  workload = "conteoso${random_string.affix.result}"
 }
 
 resource "azurerm_resource_group" "default" {
