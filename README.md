@@ -58,7 +58,6 @@ The following subnets will be created within the VNET:
 | Subnet004 | Yes | - | `Microsoft.Web/serverFarms` |
 | Subnet005 | Yes | - | - |
 
-
 The results are interesting when looking at `Subnet003`.
 
 When integrating services to subnets, we get different outputs:
@@ -69,6 +68,9 @@ When integrating services to subnets, we get different outputs:
 | SQL MAnaged Instance | ❌ | ✅ | ✅ | ✅ | ✅ |
 
 Requirements for **App Service**:
+
+> [!TIP]
+> Subnet must have the right delegation and **_also_** be empty
 
 <img src=".assets/webapp.png" />
 
